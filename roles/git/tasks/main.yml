@@ -1,0 +1,11 @@
+---
+- name: Add Git PPA
+  apt_repository:
+    repo: "ppa:pdoes/ppa"
+    update_cache: yes
+
+- name: Install Git
+  apt:
+    name: git
+    state: latest
+    force: yes
