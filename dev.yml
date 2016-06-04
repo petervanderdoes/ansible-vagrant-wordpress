@@ -18,6 +18,7 @@
     - { role: memcached, tags: [memcached] }
     - { role: nginx, tags: [nginx] }
     - { role: logrotate, tags: [logrotate] }
+    - { role: vsftpd, tags: [vsftpd]}
     - { role: composer, tags: [composer] }
     - { role: wp-cli, tags: [wp-cli] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }
