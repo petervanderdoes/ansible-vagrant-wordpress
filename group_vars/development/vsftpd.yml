@@ -1,0 +1,13 @@
+vsftpd_pam_configuration_file_content: |
+  # Standard behaviour for ftpd(8).
+  auth  required  pam_listfile.so item=user sense=deny file=/etc/ftpusers onerr=succeed
+  # Note: vsftpd handles anonymous logins on its own. Do not enable pam_ftp.so.
+  # Standard pam includes
+  @include common-account
+  @include common-session
+  @include common-auth
+  auth  required  pam_shells.so
+vsftpd_firewall_managed_with_ferm: false
+vsftpd_listen_address: "{{ server_ip }}"
+vsftpd_local_enable: true
+vsftpd_write_enable: true

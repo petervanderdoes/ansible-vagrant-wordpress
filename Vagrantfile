@@ -3,7 +3,7 @@
 
 require 'yaml'
 
-ip = '192.168.50.5' # pick any local IP
+ip = '192.168.50.6' # pick any local IP
 cpus = 1
 memory = 1024 # in MB
 
@@ -68,10 +68,10 @@ Vagrant.configure('2') do |config|
     if !Vagrant.has_plugin? 'vagrant-bindfs'
       fail_with_message "vagrant-bindfs missing, please install the plugin with this command:\nvagrant plugin install vagrant-bindfs"
     else
-      wordpress_sites.each_pair do |name, site|
-        config.vm.synced_folder local_site_path(site), nfs_path(name), type: 'nfs'
-        config.bindfs.bind_folder nfs_path(name), remote_site_path(name), u: 'vagrant', g: 'www-data', o: 'nonempty'
-      end
+      #wordpress_sites.each_pair do |name, site|
+      #  config.vm.synced_folder local_site_path(site), nfs_path(name), type: 'nfs', mount_options: ['rw', 'vers=4', 'tcp', 'fsc' ,'actimeo=1']
+      #  config.bindfs.bind_folder nfs_path(name), remote_site_path(name), u: 'vagrant', g: 'www-data', o: 'nonempty'
+      #end
     end
   end
 
@@ -102,6 +102,7 @@ Vagrant.configure('2') do |config|
     vb.name = config.vm.hostname
     vb.customize ['modifyvm', :id, '--cpus', cpus]
     vb.customize ['modifyvm', :id, '--memory', memory]
+    vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
 
     # Fix for slow external network connections
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']

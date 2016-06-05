@@ -1,7 +1,7 @@
 mariadb_binary_logging_disabled: true
 mariadb_keyserver_fingerprint: "0xcbcb082a1bb943db"
 mariadb_mirror: nyc2.mirrors.digitalocean.com
-mariadb_version: "10.0"
+mariadb_version: "10.1"
 mariadb_dist: trusty
 mysql_root_user: root
 

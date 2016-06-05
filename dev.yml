@@ -6,10 +6,12 @@
 
   roles:
     - { role: common, tags: [common] }
+    - { role: git, tags: [git] }
     - { role: fail2ban, tags: [fail2ban] }
     - { role: ferm, tags: [ferm] }
     - { role: ntp }
     - { role: sshd, tags: [sshd] }
+    - { role: vsftpd, tags: [vsftpd]}
     - { role: mariadb, tags: [mariadb] }
     - { role: ssmtp, tags: [ssmtp mail] }
     - { role: mailhog, tags: [mailhog mail] }

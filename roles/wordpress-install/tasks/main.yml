@@ -16,6 +16,14 @@
   register: env_file
   changed_when: env_file.stdout == "{{ item.key }}.env"
 
+- name: Copy Initial Site
+  #command: rsync -arvR --info=NAME {{ item.value.local_path }} {{ www_root }}/{{ item.key }}/current creates={{ www_root }}/{{ item.key }}/current/composer.json
+  synchronize:
+    src: "{{ item.value.local_path }}/"
+    dest: "{{ www_root }}/{{ item.key }}/current/"
+  with_dict: "{{ wordpress_sites }}"
+  register: rsync_wordpress
+
 - name: Install Dependencies with Composer
   command: composer install
   args:

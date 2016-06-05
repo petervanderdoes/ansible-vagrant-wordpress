@@ -1,0 +1,74 @@
+---
+
+# Main tasks file for vsftpd role
+
+- name: Check configuration values
+  include: check_configuration.yml
+  tags:
+    - install
+    - vsftpd
+
+- name: Load the OS specific varibles
+  include_vars: "{{ role_path }}/vars/{{ ansible_os_family }}.yml"
+  tags:
+    - install
+    - vsftpd
+
+- name: Install vsFtpd
+  apt:
+    name: '{{ item }}'
+    state: present
+    force: yes
+  with_items:
+     - vsftpd
+     - db5.3-util
+  tags: 
+    - install
+    - vsftpd
+
+- name: Create configuration directory
+  become: True
+  file:
+    dest: "{{ vsftpd_config_directory_name }}"
+    mode: "{{ vsftpd_config_directory_mode }}"
+    owner: "{{ vsftpd_config_directory_owner }}"
+    group: "{{ vsftpd_config_directory_group }}"
+    state: directory
+  notify: restart vsftpd
+  tags:
+    - config
+    - vsftpd
+
+- name: Generate main configuration file
+  become: True
+  template:
+    src: "{{ role_path }}/templates/vsftpd.conf.j2"
+    dest: "{{ vsftpd_config_directory_name }}/{{ vsftpd_config_file_name }}"
+    mode: "{{ vsftpd_config_file_mode }}"
+    owner: "{{ vsftpd_config_file_owner }}"
+    group: "{{ vsftpd_config_file_group }}"
+  notify: restart vsftpd
+  tags:
+    - config
+    - vsftpd
+
+- name: Include tasks about additional configuration files
+  include: "{{ role_path }}/tasks/create_file_with_content.yml"
+  tags:
+    - config
+    - vsftpd
+
+- name: Include tasks about virtual users
+  include: "{{ role_path }}/tasks/manage_virtual_users.yml"
+  when: vsftpd_virtual_users_with_berkeleydb
+  tags:
+    - config
+    - vsftpd
+
+- name: Include tasks about firewall configuration with ferm
+  include: "{{ role_path }}/tasks/manage_firewall_rules_with_ferm.yml"
+  when: vsftpd_firewall_managed_with_ferm
+  tags:
+    - config
+    - vsftpd
+
