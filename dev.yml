@@ -11,6 +11,7 @@
     - { role: ferm, tags: [ferm] }
     - { role: ntp }
     - { role: sshd, tags: [sshd] }
+    - { role: vsftpd, tags: [vsftpd]}
     - { role: mariadb, tags: [mariadb] }
     - { role: ssmtp, tags: [ssmtp mail] }
     - { role: mailhog, tags: [mailhog mail] }
@@ -18,7 +19,6 @@
     - { role: memcached, tags: [memcached] }
     - { role: nginx, tags: [nginx] }
     - { role: logrotate, tags: [logrotate] }
-    - { role: vsftpd, tags: [vsftpd]}
     - { role: composer, tags: [composer] }
     - { role: wp-cli, tags: [wp-cli] }
     - { role: wordpress-setup, tags: [wordpress, wordpress-setup] }

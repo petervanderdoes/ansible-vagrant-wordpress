@@ -1,6 +1,0 @@
-/trellis.iml
-.vault_pass
-.vagrant
-vendor/roles
-*.py[co]
-*.retry

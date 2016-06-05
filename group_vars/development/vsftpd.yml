@@ -1,20 +1,13 @@
-vsftpd_virtual_users_with_berkeleydb: true
-vsftpd_virtual_users_database_file_name: '/etc/vsftpd_virtual_users'
-vsftpd_virtual_users_clean_database: true
-vsftpd_virtual_users:
-  - username: ftpuser
-    password: "{{ vault_vsftpd_password }}"
-vsftpd_guest_enable: true
-vsftpd_virtual_use_local_privs: true
-vsftpd_virtual_user_root_directory: '{{ www_root }}'
 vsftpd_pam_configuration_file_content: |
-  auth       required     pam_userdb.so db={{ vsftpd_virtual_users_database_file_name }}
-  account    required     pam_userdb.so db={{ vsftpd_virtual_users_database_file_name }}
-  session    required     pam_loginuid.so
+  # Standard behaviour for ftpd(8).
+  auth  required  pam_listfile.so item=user sense=deny file=/etc/ftpusers onerr=succeed
+  # Note: vsftpd handles anonymous logins on its own. Do not enable pam_ftp.so.
+  # Standard pam includes
+  @include common-account
+  @include common-session
+  @include common-auth
+  auth  required  pam_shells.so
 vsftpd_firewall_managed_with_ferm: false
 vsftpd_listen_address: "{{ server_ip }}"
 vsftpd_local_enable: true
 vsftpd_write_enable: true
-vsftpd_nopriv_user: "{{ web_user }}"
-vsftpd_guest_username: "{{ web_user }}"
-vsftpd_anon_umask: '0022'
