@@ -12,7 +12,7 @@ vsftpd_pam_configuration_file_content: |
   account    required     pam_userdb.so db={{ vsftpd_virtual_users_database_file_name }}
   session    required     pam_loginuid.so
 vsftpd_firewall_managed_with_ferm: false
-vsftpd_listen_address: {{ server_ip }}
+vsftpd_listen_address: "{{ server_ip }}"
 vsftpd_local_enable: true
 vsftpd_write_enable: true
 vsftpd_nopriv_user: "{{ web_user }}"
